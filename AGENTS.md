@@ -15,7 +15,7 @@ Predict an engine's **Remaining Useful Life (RUL)** in operating cycles from its
 8. Use the same target definition and MAE/RMSE functions to compare models.
 9. Tune using validation results. Use the official test RUL labels for final evaluation only.
 10. A good score is not enough: explain the method, check leakage, show plots, keep a record of experiments and document limitations.
-11. Do not commit raw data, API keys, tokens, environment files containing secrets, or large model checkpoints.
+11. The raw FD001 files (`train_FD001.txt`, `test_FD001.txt`, `RUL_FD001.txt`) are committed in `data/raw/` so every member uses identical data; never edit them. Do not commit other raw/processed data, API keys, tokens, environment files containing secrets, or large model checkpoints.
 12. Do not overwrite another member's work or shared interface without discussion and review.
 
 ## How AI assistance should behave
