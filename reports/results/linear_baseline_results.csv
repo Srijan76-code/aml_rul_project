@@ -1,0 +1,4 @@
+model,params,val_mae,val_rmse,val_n,val_all_rows_mae,val_all_rows_rmse,features,target,split,test_mae,test_rmse,test_n
+OLS,{},32.864897818922515,42.91713979785057,100,36.359555213639155,49.71507557695961,raw settings + sensors (24),"RUL = last cycle - cycle, no cap","engine ID 80/20, seed 42, 100 val cut-offs (docs/fd001_validation_cutoffs.csv)",24.90804124211765,31.173574270157086,100.0
+Ridge,{'alpha': 0.01},32.86489930787792,42.917141110042785,100,36.35955529765268,49.7150760055903,raw settings + sensors (24),"RUL = last cycle - cycle, no cap","engine ID 80/20, seed 42, 100 val cut-offs (docs/fd001_validation_cutoffs.csv)",,,
+ElasticNet,"{'alpha': 0.001, 'l1_ratio': 0.8}",32.865257571321926,42.91749737347627,100,36.35954707174813,49.71520895660722,raw settings + sensors (24),"RUL = last cycle - cycle, no cap","engine ID 80/20, seed 42, 100 val cut-offs (docs/fd001_validation_cutoffs.csv)",,,

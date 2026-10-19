@@ -16,9 +16,9 @@ Start at project setup, alongside Aryan's initial data audit. Agree on target an
 - [x] Do not silently cap RUL. If the team tests a cap later, log it as a separate experiment.
 - [x] Design a validation split by engine ID, not random rows. Discuss how to simulate the last-observed-cycle prediction used for test engines.
 - [x] Implement shared MAE and RMSE functions and test them on small known values.
-- [ ] Train a simple linear regression baseline; add Ridge or Elastic Net to demonstrate regularization.
-- [ ] Keep actual and predicted RUL aligned by engine/cycle. For the official test set, align one prediction at the last observed cycle of each engine with the matching provided test RUL.
-- [ ] Record the exact split method, target settings, metrics and seed.
+- [x] Train a simple linear regression baseline; add Ridge or Elastic Net to demonstrate regularization.
+- [x] Keep actual and predicted RUL aligned by engine/cycle. For the official test set, align one prediction at the last observed cycle of each engine with the matching provided test RUL.
+- [x] Record the exact split method, target settings, metrics and seed.
 
 ### Phase 2 — evaluation owner
 

@@ -5,3 +5,5 @@ pytest==9.1.1
 jupyter==1.1.1
 nbformat==5.11.1
 nbconvert==7.17.2
+scikit-learn==1.9.1
+scipy==1.18.1
