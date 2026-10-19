@@ -12,16 +12,16 @@ Start first. Work with Abhayanth to agree on columns and row/engine identifiers 
 
 - [x] Read `docs/PROJECT_CONTEXT.md` and `docs/AML_CONCEPT_MAP.md`.
 - [x] Load the FD001 training file and inspect shape, column names, engine counts, cycle order, missing values and duplicate rows.
-- [ ] Plot several sensors across engine cycles; show that sensor behavior can change during degradation.
-- [ ] Check sensors for constant or nearly constant values; document the reason for keeping/removing each one.
-- [ ] Create rolling mean, rolling standard deviation and/or rolling slope features using only current and past cycles.
-- [ ] Keep engine ID and cycle available for splitting and ordering; exclude ID from sensor inputs unless the team has a justified reason to encode it.
-- [ ] Fit scalers/feature selectors only on the training split.
+- [x] Plot several sensors across engine cycles; show that sensor behavior can change during degradation.
+- [x] Check sensors for constant or nearly constant values; document the reason for keeping/removing each one.
+- [x] Create rolling mean, rolling standard deviation and/or rolling slope features using only current and past cycles.
+- [x] Keep engine ID and cycle available for splitting and ordering; exclude ID from sensor inputs unless the team has a justified reason to encode it.
+- [x] Fit scalers/feature selectors only on the training split.
 - [ ] Optionally test PCA after the basic feature/model pipeline works; compare validation results rather than assuming PCA helps.
 
 ### Phase 2 — help sequence preparation
 
-- [ ] Document the raw sensor columns and normalization approach for Ashrith.
+- [x] Document the raw sensor columns and normalization approach for Ashrith.
 - [ ] Check feature/window ordering on a few hand-inspected engine examples.
 
 ## Expected deliverables
