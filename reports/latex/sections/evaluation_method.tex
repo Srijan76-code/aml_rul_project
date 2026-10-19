@@ -1,0 +1,90 @@
+% Evaluation methodology — owner: Abhayanth.
+% Source of truth: docs/EVALUATION_PROTOCOL.md. Code: src/rul_prediction/{targets,splits,metrics}.py.
+% Include from the main report with \input{sections/evaluation_method}.
+% Needs: amsmath.
+
+\section{Evaluation Methodology}
+\label{sec:evaluation}
+
+All models in this study (linear, tree-based and sequence models) share one
+target definition, one engine-level data split, one set of validation points
+and one pair of metric functions, implemented once in shared code. This makes
+their errors directly comparable.
+
+\subsection{Target Definition}
+
+Each training engine in FD001 is run until failure, so its last recorded cycle
+is its failure point. For engine $i$ with final cycle $T_i$, the Remaining
+Useful Life (RUL) at cycle $t$ is
+\begin{equation}
+  \mathrm{RUL}_{i,t} = T_i - t ,
+  \label{eq:rul}
+\end{equation}
+which falls to 0 at the failure cycle. Training trajectories last between 128
+and 362 cycles, so $T_i$ is looked up per engine. No upper cap is applied to
+the label. A cap (for example 125 cycles) changes the learning target, so it
+is treated as a separate experiment rather than a default.
+
+Test engines stop before failure. Only their last observed cycle has a known
+RUL, supplied in \texttt{RUL\_FD001.txt}. Each test engine is therefore scored
+once, at its last observed cycle. Predictions are joined to the answer key by
+engine ID rather than by row position, and the join fails if any engine is
+missing, extra or repeated.
+
+\subsection{Engine-Level Validation Split}
+
+Consecutive cycles of one engine have almost identical sensor readings. A
+random row split would place the same engine in both training and validation,
+letting a model memorise that engine and report an optimistic score. We
+therefore split by engine: 20\% of the 100 training engines (20 engines,
+random seed 42) are held out for validation. This leaves 16{,}390 training
+rows and 4{,}241 validation rows, with no engine on both sides. Scalers,
+feature selection and any other fitted preprocessing are fitted on the 80
+training engines only.
+
+\subsection{Test-Like Validation Points}
+
+Scoring every validation row would not resemble the test set, where each
+engine is seen only up to an unknown cut-off before failure. Instead, for each
+validation engine we sample 5 cut-off cycles uniformly at random (seed 42)
+between cycle 31 and $T_i - 1$, which gives 100 validation points. The lower
+bound of 31 is the shortest test-engine history; it is derived from test
+input lengths only, never from test labels. The upper bound guarantees that
+the engine has not yet failed.
+
+Scoring the row at cut-off $c$ is equivalent to truncating the engine at $c$
+only if every feature is causal, that is, computed from cycles $\le c$ of the
+same engine. Centred or forward-looking windows and whole-trajectory
+statistics are therefore not allowed. Sequence models use the window that
+ends at each cut-off. The 100 points are committed to the repository and
+pinned by an automated test, so every model is scored on identical rows.
+
+\subsection{Metrics}
+
+For $n$ scored points with true RUL $y_k$ and prediction $\hat{y}_k$:
+\begin{align}
+  \mathrm{MAE}  &= \frac{1}{n}\sum_{k=1}^{n} \lvert y_k - \hat{y}_k \rvert , \\
+  \mathrm{RMSE} &= \sqrt{\frac{1}{n}\sum_{k=1}^{n} \left(y_k - \hat{y}_k\right)^2 } .
+\end{align}
+Both are measured in cycles, and lower is better. MAE is the average size of
+a miss. RMSE squares errors before averaging, so a few large misses raise it
+more than many small ones; $\mathrm{RMSE} \ge \mathrm{MAE}$ always holds. Over-
+and under-prediction are penalised equally. Hyperparameters are selected by
+validation RMSE, because large misses are the costly ones in maintenance
+planning.
+
+\subsection{Use of the Test Set}
+
+Models, features and hyperparameters are chosen on the validation points
+only. Each final model is then evaluated on the test set once, and it is not
+changed after its test score is seen. Test RUL values are not summarised or
+plotted before that final evaluation.
+
+\subsection{Limitations of the Protocol}
+
+The 100 validation points come from only 20 engines, and points from the same
+engine are correlated. The effective sample size is therefore closer to 20,
+and differences of a few cycles between models may be noise. Tuning
+repeatedly against one fixed split can also make validation scores
+optimistic. Finally, uniform cut-offs include early-life points with RUL up to
+about 330 cycles, which weigh heavily in uncapped RMSE.
