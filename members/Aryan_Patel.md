@@ -10,8 +10,8 @@ Start first. Work with Abhayanth to agree on columns and row/engine identifiers 
 
 ### Phase 1 — AML
 
-- [ ] Read `docs/PROJECT_CONTEXT.md` and `docs/AML_CONCEPT_MAP.md`.
-- [ ] Load the FD001 training file and inspect shape, column names, engine counts, cycle order, missing values and duplicate rows.
+- [x] Read `docs/PROJECT_CONTEXT.md` and `docs/AML_CONCEPT_MAP.md`.
+- [x] Load the FD001 training file and inspect shape, column names, engine counts, cycle order, missing values and duplicate rows.
 - [ ] Plot several sensors across engine cycles; show that sensor behavior can change during degradation.
 - [ ] Check sensors for constant or nearly constant values; document the reason for keeping/removing each one.
 - [ ] Create rolling mean, rolling standard deviation and/or rolling slope features using only current and past cycles.
