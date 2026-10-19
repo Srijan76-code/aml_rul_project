@@ -11,6 +11,23 @@ A simple working guide for the five-person project. It explains who owns what, w
 5. Install/start Claude Code from the repository root so it loads `CLAUDE.md` and its shared context automatically.
 6. Ask Claude Code to read your member file and complete the first unchecked task; explicitly request the relevant named subagent if needed.
 
+## Setup (every member, once after cloning)
+
+```bash
+git clone https://github.com/Srijan76-code/aml_rul_project.git
+cd aml_rul_project
+python3 -m venv .venv
+source .venv/bin/activate            # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+pip install -e .                     # makes `import rul_prediction` work in notebooks, tests and the editor
+python -m pytest -q                  # all tests should pass
+```
+
+- **Data:** the NASA C-MAPSS FD001 files are already in `data/raw/` (`train_FD001.txt`, `test_FD001.txt`, `RUL_FD001.txt`). Treat them as read-only.
+- **Loading:** use `rul_prediction.data.load_cmapss_file(path)`; it returns 26 named columns: `engine_id`, `cycle`, `setting_1..3`, `sensor_1..21`.
+- **Check you have the right data:** run `notebooks/01_eda.ipynb` from the `notebooks/` folder. The training file should give 20,631 rows × 26 columns and 100 engines.
+- In VS Code, select the `.venv` interpreter.
+
 ## Team work ownership
 
 | Member | Main ownership | Main deliverables |
@@ -38,4 +55,4 @@ A simple working guide for the five-person project. It explains who owns what, w
 
 ## Important
 
-These files provide shared context and guardrails; they cannot guarantee that an agent will never make a mistake. Review diffs, run tests, verify metrics, and understand your own code. Do not commit dataset files, secrets, or model checkpoints to GitHub.
+These files provide shared context and guardrails; they cannot guarantee that an agent will never make a mistake. Review diffs, run tests, verify metrics, and understand your own code. Only the three FD001 files in `data/raw/` are committed; do not commit other dataset files, processed data, secrets, or model checkpoints to GitHub.

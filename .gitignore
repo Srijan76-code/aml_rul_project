@@ -1,5 +1,9 @@
 # Local dataset and generated artifacts
-data/raw/
+# Raw data: only the three FD001 files are committed (team decision); everything else stays local.
+data/raw/*
+!data/raw/train_FD001.txt
+!data/raw/test_FD001.txt
+!data/raw/RUL_FD001.txt
 data/processed/
 *.pt
 *.pth

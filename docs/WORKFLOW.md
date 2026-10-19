@@ -4,7 +4,7 @@
 
 - One member creates a private GitHub repository and invites the other four.
 - Add this project pack at the repository root.
-- Agree where the raw FD001 files will be stored locally/Colab; do not commit them.
+- The raw FD001 files are committed in `data/raw/` (see `README.md` → Setup). Do not edit them or add other subsets/processed data without team agreement.
 - Agree on target, split, feature, sequence and metric interfaces before all five code in parallel.
 - Each person opens their own `members/` file.
 
