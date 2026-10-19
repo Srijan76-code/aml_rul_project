@@ -3,7 +3,12 @@
 import pandas as pd
 import pytest
 
-from rul_prediction.data import RAW_COLUMNS, audit_raw_data, load_cmapss_file
+from rul_prediction.data import (
+    RAW_COLUMNS,
+    audit_raw_data,
+    load_cmapss_file,
+    load_rul_file,
+)
 
 
 def make_row(engine_id, cycle, value=1.0):
@@ -98,3 +103,39 @@ def test_audit_catches_repeated_cycle_with_different_values(tmp_path):
 
     assert summary["duplicate_rows"] == 0
     assert summary["duplicate_engine_cycle_pairs"] == 1
+
+
+def test_load_rul_file_numbers_engines_from_line_order(tmp_path):
+    path = tmp_path / "RUL_tiny.txt"
+    path.write_text("112 \n98 \n0 \n")
+
+    rul = load_rul_file(path)
+
+    assert list(rul.columns) == ["engine_id", "rul"]
+    assert rul["engine_id"].tolist() == [1, 2, 3]
+    assert rul["rul"].tolist() == [112, 98, 0]
+
+
+def test_load_rul_file_rejects_extra_columns(tmp_path):
+    path = tmp_path / "bad_rul.txt"
+    path.write_text("1 112\n2 98\n")
+
+    with pytest.raises(ValueError, match="expected 1 column"):
+        load_rul_file(path)
+
+
+def test_load_rul_file_rejects_negative_rul(tmp_path):
+    path = tmp_path / "neg_rul.txt"
+    path.write_text("10\n-1\n")
+
+    with pytest.raises(ValueError, match="non-negative"):
+        load_rul_file(path)
+
+
+@pytest.mark.parametrize("bad_line", ["12.7", "abc"])
+def test_load_rul_file_rejects_non_integer_rul(tmp_path, bad_line):
+    path = tmp_path / "bad_value_rul.txt"
+    path.write_text(f"10\n{bad_line}\n")
+
+    with pytest.raises(ValueError, match="whole numbers"):
+        load_rul_file(path)

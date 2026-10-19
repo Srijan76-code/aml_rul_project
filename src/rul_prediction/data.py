@@ -41,6 +41,26 @@ def load_cmapss_file(path):
     return raw
 
 
+def load_rul_file(path):
+    """Read RUL_FD001.txt: the true RUL at each test engine's last observed cycle.
+
+    The file has one integer per line and no engine column; NASA's readme
+    states that line i belongs to test engine i. We add `engine_id` explicitly
+    so predictions are joined by ID, never by row position.
+    """
+    raw = pd.read_csv(Path(path), sep=r"\s+", header=None)
+    if raw.shape[1] != 1:
+        raise ValueError(f"{path}: expected 1 column, found {raw.shape[1]}")
+    # A float, missing or text value would otherwise be truncated or give an
+    # obscure cast error; RUL here is always a whole number of cycles.
+    if not pd.api.types.is_integer_dtype(raw[0]):
+        raise ValueError(f"{path}: RUL values must be whole numbers")
+    rul = raw[0]
+    if (rul < 0).any():
+        raise ValueError(f"{path}: RUL values must be non-negative")
+    return pd.DataFrame({"engine_id": range(1, len(rul) + 1), "rul": rul})
+
+
 def audit_raw_data(df):
     """Summarise structural data-quality checks for a raw C-MAPSS table.
 
