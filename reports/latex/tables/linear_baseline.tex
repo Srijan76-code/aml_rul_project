@@ -2,16 +2,19 @@
 % reports/results/linear_baseline_results.csv. Do not edit by hand.
 \begin{table}[t]
 \centering
-\caption{Linear baseline on raw settings and sensors (FD001). Validation: 100 cut-off points from 20 held-out engines. Test: 100 engines, scored once for the model chosen on validation. Units: cycles.}
+\caption{Linear baseline on FD001 with raw (v1) and engineered (v2) features: best setting per model family. Validation: 100 cut-off points from 20 held-out engines. Test: 100 engines, scored once for the model chosen on validation within each feature set. Units: cycles.}
 \label{tab:linear_baseline}
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{llcccc}
+\begin{tabular}{lllcccc}
 \toprule
-Model & Hyperparameters & Val MAE & Val RMSE & Test MAE & Test RMSE \\
+Features & Model & Hyperparameters & Val MAE & Val RMSE & Test MAE & Test RMSE \\
 \midrule
-OLS & -- & 32.86 & 42.92 & 24.91 & 31.17 \\
-Ridge & $\alpha$=0.01 & 32.86 & 42.92 & -- & -- \\
-Elastic Net & $\alpha$=0.001, $\rho_{L1}$=0.8 & 32.87 & 42.92 & -- & -- \\
+v1 raw (24) & OLS & -- & 32.86 & 42.92 & 24.91 & 31.17 \\
+v1 raw (24) & Ridge & $\alpha$=0.01 & 32.86 & 42.92 & -- & -- \\
+v1 raw (24) & Elastic Net & $\alpha$=0.001, $\rho_{L1}$=0.8 & 32.87 & 42.92 & -- & -- \\
+v2 engineered (57) & Elastic Net & $\alpha$=1, $\rho_{L1}$=0.5 & 31.66 & 41.77 & 23.61 & 29.04 \\
+v2 engineered (57) & Ridge & $\alpha$=1000 & 31.93 & 41.89 & -- & -- \\
+v2 engineered (57) & OLS & -- & 32.66 & 42.54 & -- & -- \\
 \bottomrule
 \end{tabular}}
 \end{table}

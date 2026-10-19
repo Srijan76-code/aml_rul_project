@@ -1,4 +1,4 @@
-# Experiment log — linear baseline v1 (raw sensors)
+# Experiment log — linear baseline v1
 
 - **Owner:** Abhayanth
 - **Notebook:** notebooks/03_linear_baseline.ipynb
@@ -13,7 +13,7 @@
 - **Other settings:** StandardScaler defaults (mean/std from training engines); ElasticNet max_iter=50000; scikit-learn 1.9.1, scipy 1.18.1, pandas 3.0.6, numpy 2.5.4
 - **Validation MAE / RMSE (cycles, 100 cut-offs):** 32.86 / 42.92
 - **Test MAE / RMSE (cycles, 100 engines, run once):** 24.91 / 31.17
-- **Plots/results file:** reports/figures/linear_ridge_coefficient_path.png, reports/figures/linear_baseline_validation_diagnostics.png, reports/results/linear_baseline_results.csv, reports/results/linear_baseline_grid.csv
+- **Plots/results file:** reports/figures/linear_baseline_validation_diagnostics.png, reports/results/linear_baseline_results.csv, reports/results/linear_baseline_grid.csv
 - **What changed from previous experiment:** first model
 - **Interpretation:** see the Findings section of the notebook
-- **Limitations / next experiment:** re-run on Aryan's engineered features; RUL cap only as a separate logged experiment
+- **Limitations / next experiment:** RUL cap or refitting on all 100 training engines only as separate logged team decisions
