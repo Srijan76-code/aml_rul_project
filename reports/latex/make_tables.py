@@ -16,6 +16,7 @@ RESULTS_DIR = ROOT / "reports" / "results"
 TABLES_DIR = ROOT / "reports" / "latex" / "tables"
 
 MODEL_NAMES = {"OLS": "OLS", "Ridge": "Ridge", "ElasticNet": "Elastic Net"}
+FEATURE_SET_NAMES = {"v1": "v1 raw (24)", "v2": "v2 engineered (57)"}
 PARAM_NAMES = {"alpha": r"$\alpha$", "l1_ratio": r"$\rho_{L1}$"}
 
 
@@ -34,6 +35,7 @@ def linear_baseline_table():
     results = pd.read_csv(RESULTS_DIR / "linear_baseline_results.csv")
     rows = [
         " & ".join([
+            FEATURE_SET_NAMES.get(row.feature_set, row.feature_set),
             MODEL_NAMES.get(row.model, row.model),
             format_params(row.params),
             format_number(row.val_mae),
@@ -48,14 +50,16 @@ def linear_baseline_table():
         "% reports/results/linear_baseline_results.csv. Do not edit by hand.",
         r"\begin{table}[t]",
         r"\centering",
-        r"\caption{Linear baseline on raw settings and sensors (FD001). Validation: 100 cut-off points "
-        r"from 20 held-out engines. Test: 100 engines, scored once for the model chosen on validation. "
+        r"\caption{Linear baseline on FD001 with raw (v1) and engineered (v2) features: best setting "
+        r"per model family. Validation: 100 cut-off points "
+        r"from 20 held-out engines. Test: 100 engines, scored once for the model chosen on validation "
+        r"within each feature set. "
         r"Units: cycles.}",
         r"\label{tab:linear_baseline}",
         r"\resizebox{\columnwidth}{!}{%",
-        r"\begin{tabular}{llcccc}",
+        r"\begin{tabular}{lllcccc}",
         r"\toprule",
-        r"Model & Hyperparameters & Val MAE & Val RMSE & Test MAE & Test RMSE \\",
+        r"Features & Model & Hyperparameters & Val MAE & Val RMSE & Test MAE & Test RMSE \\",
         r"\midrule",
         *rows,
         r"\bottomrule",
