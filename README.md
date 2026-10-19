@@ -25,6 +25,7 @@ python -m pytest -q                  # all tests should pass
 
 - **Data:** the NASA C-MAPSS FD001 files are already in `data/raw/` (`train_FD001.txt`, `test_FD001.txt`, `RUL_FD001.txt`). Treat them as read-only.
 - **Loading:** use `rul_prediction.data.load_cmapss_file(path)`; it returns 26 named columns: `engine_id`, `cycle`, `setting_1..3`, `sensor_1..21`. For the test answer key use `load_rul_file(path)`, which returns `engine_id` and `rul` (true RUL at each test engine's last observed cycle); join predictions to it by `engine_id`.
+- **Features:** `rul_prediction.features` gives the 14 informative sensors, causal rolling mean/std/slope and the model input list; column meanings and the normalization rule (fit scalers on training engines only) are in `docs/DATA_DICTIONARY.md`.
 - **Check you have the right data:** run `notebooks/01_eda.ipynb` from the `notebooks/` folder. The training file should give 20,631 rows × 26 columns and 100 engines.
 - In VS Code, select the `.venv` interpreter.
 
