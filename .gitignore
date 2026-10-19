@@ -1,0 +1,15 @@
+# Local dataset and generated artifacts
+data/raw/
+data/processed/
+*.pt
+*.pth
+*.ckpt
+*.joblib
+*.pkl
+.env
+.env.*
+!.env.example
+.ipynb_checkpoints/
+__pycache__/
+.pytest_cache/
+.DS_Store
