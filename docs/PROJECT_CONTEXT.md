@@ -42,6 +42,8 @@ The project brief specifically recommends cycle, rolling mean, rolling slope, op
 
 ## Evaluation rules
 
+Exact target, split, validation-point and metric settings: `docs/EVALUATION_PROTOCOL.md`.
+
 - MAE: average absolute error in cycles.
 - RMSE: square root of average squared error; large mistakes count more heavily.
 - Do not compare models evaluated with different targets or data splits.
