@@ -1,0 +1,20 @@
+docs/AML_CONCEPT_MAP.md
+  s_163a8d40b09c5a::t_b46fbce1f0e48d 10
+  s_163a8d40b09c5a::t_9d51c9365a7784 17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "936928c43bce3029e0128ecb16c2d55863d2a78f",
+  "prompts": {},
+  "sessions": {
+    "s_163a8d40b09c5a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e231e61f-d3ce-494e-94d4-37e2acc56c5c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Aryan Patel <aryanpatel6215@gmail.com>"
+    }
+  }
+}
