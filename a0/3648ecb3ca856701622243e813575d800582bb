@@ -1,0 +1,31 @@
+AGENTS.md
+  s_163a8d40b09c5a::t_0736f318f593dd 18
+docs/WORKFLOW.md
+  s_163a8d40b09c5a::t_0736f318f593dd 7
+README.md
+  s_163a8d40b09c5a::t_0736f318f593dd 14-30,58
+.gitignore
+  s_163a8d40b09c5a::t_0736f318f593dd 2-6
+data/raw/RUL_FD001.txt
+  s_163a8d40b09c5a::t_9aa572c1cae030 1-100
+data/raw/test_FD001.txt
+  s_163a8d40b09c5a::t_d71fa2ac039af3 1-13096
+data/raw/train_FD001.txt
+  s_163a8d40b09c5a::t_e21d71daef1316 1-20631
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a03648ecb3ca856701622243e813575d800582bb",
+  "prompts": {},
+  "sessions": {
+    "s_163a8d40b09c5a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e231e61f-d3ce-494e-94d4-37e2acc56c5c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Aryan Patel <aryanpatel6215@gmail.com>"
+    }
+  }
+}
