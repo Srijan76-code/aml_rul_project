@@ -1,0 +1,29 @@
+README.md
+  s_163a8d40b09c5a::t_9e86f10474dc79 27
+notebooks/01_eda.ipynb
+  s_163a8d40b09c5a::t_0108da6bca24bd 14,441-456,461-499,503-510,515-521,523-529,533-534
+  s_163a8d40b09c5a::t_dbbf688e445fe1 551-553,555-556
+  s_163a8d40b09c5a::t_2020eeaa75b6af 23-26,59-62,286-289,324-327,373-376,418-421,457-460,500-502,511-514,522,530-532,554
+tests/test_data.py
+  s_163a8d40b09c5a::t_f381d9697c7abc 6-11,106-132
+  s_163a8d40b09c5a::t_2020eeaa75b6af 133-141
+src/rul_prediction/data.py
+  s_163a8d40b09c5a::t_929f7e86bf3533 44-53,59-63
+  s_163a8d40b09c5a::t_c6daa31485b3a3 54-58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cef83fc8b93da10780adc9e7375ea06fe84223f2",
+  "prompts": {},
+  "sessions": {
+    "s_163a8d40b09c5a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e231e61f-d3ce-494e-94d4-37e2acc56c5c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Aryan Patel <aryanpatel6215@gmail.com>"
+    }
+  }
+}
