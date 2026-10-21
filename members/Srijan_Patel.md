@@ -10,14 +10,14 @@ Start after Aryan has created the agreed feature table and Abhayanth has verifie
 
 ### Phase 1 — AML
 
-- [ ] Read `docs/PROJECT_CONTEXT.md`, `docs/AML_CONCEPT_MAP.md` and the feature/data contract.
-- [ ] Run a simple Random Forest regression model on the agreed training data.
-- [ ] Run XGBoost if available; otherwise use scikit-learn Gradient Boosting and record which one you used.
-- [ ] Compare models with the shared MAE and RMSE functions.
-- [ ] Tune only a few parameters on validation data, e.g. tree depth, number of trees and learning rate for boosting.
-- [ ] Plot predicted vs actual RUL and examine residuals.
-- [ ] Record feature importance, but explain that importance is not proof of causation.
-- [ ] Save settings, seed, metrics and figures; do not type made-up results into the report.
+- [x] Read `docs/PROJECT_CONTEXT.md`, `docs/AML_CONCEPT_MAP.md` and the feature/data contract.
+- [x] Run a simple Random Forest regression model on the agreed training data.
+- [x] Run XGBoost if available; otherwise use scikit-learn Gradient Boosting and record which one you used.
+- [x] Compare models with the shared MAE and RMSE functions.
+- [x] Tune only a few parameters on validation data, e.g. tree depth, number of trees and learning rate for boosting.
+- [x] Plot predicted vs actual RUL and examine residuals.
+- [x] Record feature importance, but explain that importance is not proof of causation.
+- [x] Save settings, seed, metrics and figures; do not type made-up results into the report.
 
 ### Phase 2 — support and comparison
 

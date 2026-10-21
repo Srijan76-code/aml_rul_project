@@ -1,0 +1,7 @@
+model,inputs,n_features,val_mae,val_rmse
+RandomForest,v2 full (cycle + sensors + rolling),57,25.02735876155279,40.166276640071125
+RandomForest,cycle + 14 raw sensors (no rolling),15,24.39604658980279,37.12892338659108
+RandomForest,v2 without cycle (sensors + rolling),56,28.27269943356124,43.601909719897975
+GradientBoosting,v2 full (cycle + sensors + rolling),57,26.122966950934583,40.16774873800107
+GradientBoosting,cycle + 14 raw sensors (no rolling),15,24.02332952761352,36.4379843668465
+GradientBoosting,v2 without cycle (sensors + rolling),56,29.195475353345163,43.38475827225037
