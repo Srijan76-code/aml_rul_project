@@ -23,7 +23,11 @@ Useful Life (RUL) at cycle $t$ is
 which falls to 0 at the failure cycle. Training trajectories last between 128
 and 362 cycles, so $T_i$ is looked up per engine. No upper cap is applied to
 the label. A cap (for example 125 cycles) changes the learning target, so it
-is treated as a separate experiment rather than a default.
+is treated as a separate experiment rather than a default. Both the training
+target and the answer key stay true RUL. A capped training target would
+replace the default only if its overall validation RMSE against true RUL were
+no worse than without the cap and its late-band error (defined below) were
+lower. This rule was fixed before the cap experiment was run.
 
 Test engines stop before failure. Only their last observed cycle has a known
 RUL, supplied in \texttt{RUL\_FD001.txt}. Each test engine is therefore scored
@@ -72,6 +76,17 @@ more than many small ones; $\mathrm{RMSE} \ge \mathrm{MAE}$ always holds. Over-
 and under-prediction are penalised equally. Hyperparameters are selected by
 validation RMSE, because large misses are the costly ones in maintenance
 planning.
+
+To show where the errors come from, each set of predictions is also scored in
+two bands, grouped by the true RUL after prediction: \emph{early} points
+(true RUL $> 125$, engine assumed still healthy) and \emph{late} points (true
+RUL $\le 125$, engine assumed degrading). The threshold is borrowed from the
+capped targets common in C-MAPSS work, which go back to the piecewise-linear
+target of Heimes (2008). It is not a measured onset of degradation, and it was
+fixed before any band score was computed. The 100 validation points split
+into 22 early points from 14 engines and 78 late points from all 20 engines.
+The overall MAE and RMSE remain the primary scores. Test-set band scores are
+computed only in the final evaluation, after the model list is frozen.
 
 \subsection{Use of the Test Set}
 

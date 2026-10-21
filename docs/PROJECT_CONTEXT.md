@@ -39,6 +39,7 @@ The project brief specifically recommends cycle, rolling mean, rolling slope, op
 3. Compare against the strongest Phase 1 model using the same target and evaluation rules.
 4. If time permits, train a TCN and perform one or two meaningful ablation studies.
 5. An ensemble/hybrid is optional: only keep it if validation results and reasoning show value.
+6. Optional idea from the RUL-cap discussion: a **two-stage model**. Stage 1 decides whether an engine has started degrading; stage 2 predicts RUL only for degrading engines and reports healthy ones as "far from failure". Graded under the same protocol (true RUL, early/late bands). Owner to be agreed in Phase 2.
 
 ## Evaluation rules
 

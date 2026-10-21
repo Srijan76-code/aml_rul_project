@@ -10,25 +10,20 @@ Start sequence preparation after Aryan documents the sensor columns and Abhayant
 
 ## Step-by-step tasks
 
-### Phase 1 — RUL cap and feature-set experiment
+### Phase 1 — early/late error breakdown and RUL-cap experiment
 
-Two open team decisions came out of the Phase 1 results:
+**Full step-by-step spec: `members/R_Ashrith_phase1_spec.md`.** Follow it in order; it lists every file, function, test and expected value.
 
-- **RUL cap:** train on `min(RUL, 125)` instead of raw RUL? Early in life the sensors barely change, so RUL 300 and RUL 200 look almost the same to a model.
-- **Rolling features for trees:** do the 42 rolling mean/std/slope columns help Random Forest and gradient boosting, or do `cycle` + the 14 raw sensors do as well?
+Questions your work answers:
 
-Your job is to produce the evidence; the team makes the decision.
+- **RUL cap:** how does training on `min(RUL, 125)` change overall, early and late error, graded against true RUL? Does it pass the decision rule in `docs/EVALUATION_PROTOCOL.md` Section 1?
+- **Rolling features for trees:** do Random Forest and gradient boosting do better with all 57 features or with `cycle` + 14 raw sensors (15)?
 
-- [ ] Read `docs/EVALUATION_PROTOCOL.md`, `reports/results/linear_baseline_v2_experiment_log.md` and both `tree_*_experiment_log.md` files.
-- [ ] In `notebooks/03_rul_cap_experiment.ipynb`, rebuild the shared split, features and the 100 pinned validation points (assert they match `docs/fd001_validation_cutoffs.csv`).
-- [ ] Run a small grid: cap {none, 125} × features {v2 57 columns, `cycle` + 14 raw sensors} × models {Elastic Net, Random Forest, gradient boosting}. Reuse the settings already chosen in the linear and tree notebooks; do not retune.
-- [ ] Clip only the **training** target. Score every run twice: against true RUL and against capped RUL. Explain why the two numbers differ so much.
-- [ ] Report how many validation points have true RUL above 125, and plot predicted vs actual for the best capped and uncapped runs.
-- [ ] Optional sensitivity check: caps 100 and 150 for the best model only.
-- [ ] **Validation only.** Do not load the test files or score the test set; that happens once, after the team decides.
-- [ ] Save `reports/results/rul_cap_experiment.csv` and `reports/results/rul_cap_experiment_log.md` from code, not by hand.
-- [ ] Ask `leakage-reviewer` (is the cap applied only to training targets?) and `experiment-reviewer` (is the comparison fair?) to review, then open a PR.
-- [ ] Present the results with a recommendation. Changing the target is a protocol change, so Abhayanth updates `docs/EVALUATION_PROTOCOL.md` only after the team agrees.
+- [ ] Part A — `metrics.score_by_rul_band` (early/late scoring) with tests.
+- [ ] Part B — `src/rul_prediction/cap_experiment.py` (experiment runner) with tests.
+- [ ] Part C — `notebooks/03_rul_cap_experiment.ipynb`, validation only; results CSV, log and figure written by code.
+- [ ] Part D — update the protocol's quick-use example.
+- [ ] Part E — `leakage-reviewer` and `experiment-reviewer`, then PR. Akhil reviews it; the team makes both decisions.
 
 ### Phase 2 — DL
 
@@ -40,14 +35,14 @@ Your job is to produce the evidence; the team makes the decision.
 - [ ] Implement a small PyTorch LSTM regressor before adding layers or tuning many parameters.
 - [ ] Track train and validation loss; use early stopping/checkpointing if appropriate.
 - [ ] Save prediction outputs and evaluate with shared MAE/RMSE functions.
-- [ ] Compare results with the best AML model under the same evaluation rules.
+- [ ] Compare results with the best AML model under the same evaluation rules, overall and per early/late band.
 
 ## Expected deliverables
 
 - sequence-window dataset code
 - `notebooks/04_lstm.ipynb`
 - `src/rul_prediction/models/lstm.py`
-- Phase 1: `notebooks/03_rul_cap_experiment.ipynb`, results CSV and experiment log
+- Phase 1: `score_by_rul_band`, `cap_experiment.py`, their tests, `notebooks/03_rul_cap_experiment.ipynb`, results CSV, log and figure
 - training/validation loss plot and recorded results
 
 ## How to approach it

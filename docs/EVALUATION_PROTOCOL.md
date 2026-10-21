@@ -5,7 +5,8 @@ Owner: Abhayanth. Every model (linear, trees, LSTM, TCN) uses these settings so 
 ## 1. Target
 
 - Training RUL: `rul = last cycle of that engine - current cycle` (`targets.add_train_rul`). Every engine ends at RUL 0.
-- **No RUL cap.** A cap (e.g. 125) is a separate, logged experiment, not the default.
+- **No RUL cap (team decision, 2026-10-21).** The training target and the answer key both stay true RUL. To see how good a model is near failure, split the error into early and late points (Section 4) instead of capping the answers. A capped *training* target (e.g. `min(RUL, 125)`) may be tried only as a logged experiment, and it is always graded against true RUL.
+- **Rule for the cap experiment, written before it runs:** capped training replaces the default only if, with the same features and model settings, the overall validation RMSE against true RUL is **no worse** than without the cap **and** the late band improves. A better late band alone is not enough, because a capped model is expected to trade early error for late error. Disclosure: Abhayanth ran an unlogged scratch version before this rule was written; in it, capped training made the overall RMSE worse for all three models.
 - Test RUL: only the last observed cycle of each test engine has a label. Use `targets.last_observed_rows` on `test_FD001.txt`, then `targets.attach_test_rul` with `data.load_rul_file`. The join is by `engine_id` and fails on missing or repeated engines.
 
 ## 2. Train / validation split
@@ -39,6 +40,13 @@ Test engines are cut off before failure and scored once, at their last observed 
 - `metrics.mae`, `metrics.rmse`, `metrics.score_predictions` — units are cycles.
 - MAE = average absolute miss. RMSE squares errors first, so big misses count more.
 - Inputs must be equal-length 1-D arrays with no NaN/inf; the functions raise otherwise.
+- **Early/late breakdown** (to be added by Ashrith as `metrics.score_by_rul_band`, see `members/R_Ashrith_phase1_spec.md`). Points are grouped by their **true** RUL, after prediction:
+  - **early:** true RUL > 125. The engine is assumed to be still healthy, so large errors are expected.
+  - **late:** true RUL <= 125. The engine is assumed to be degrading; this is the error that matters for maintenance.
+  - The threshold 125 is borrowed from the capped training target used in C-MAPSS papers (125–130; the piecewise-linear target goes back to Heimes, 2008). There it is a cap value, not a measured start of degradation. It was fixed before any band scores were computed and is not tuned. The split is sensitive to it: 26 / 22 / 18 / 13 of the 100 validation points are early at 115 / 125 / 130 / 150.
+  - The overall MAE/RMSE stays the primary score. The two bands are reported next to it, never instead of it.
+  - Validation: 22 early points (from 14 engines) and 78 late points (from all 20). The early band is small, so its error is noisy.
+  - **Test set:** no model gets test band scores or test band counts until the cap decision is made and the final model list is frozen, because band counts on the test set summarise test RUL (Section 5). Then the bands are computed once, from the same single scoring run. The test early band may be small or empty: report `n` and read NaN as "no points".
 
 ## 5. Use of the official test set
 
@@ -66,5 +74,5 @@ scores = score_predictions(val_points["rul"], model.predict(val_points[feature_c
 
 - The 100 points come from only 20 engines, and the 5 points of one engine are correlated, so the effective sample size is closer to 20 than 100. Small MAE/RMSE differences between models may be noise. Not yet measured for real models; an engine-level bootstrap is a possible later check.
 - One fixed split is tuned on repeatedly, so validation scores can become optimistic. Keep tuning grids small.
-- Uniform cut-offs include early cycles with large RUL (up to ~330 cycles), which weigh heavily in uncapped RMSE. We deliberately do not match the cut-off distribution to the test RUL labels. The early/late error breakdown (Phase 2) will show this effect.
+- Uniform cut-offs include early cycles with large RUL (up to ~330 cycles), which weigh heavily in uncapped RMSE. We deliberately do not match the cut-off distribution to the test RUL labels. The early/late error breakdown (Section 4) shows this effect.
 - Seed 42 is used for both the engine split and the cut-off sampling.
