@@ -31,7 +31,7 @@ Abhayanth consolidates evaluation. Srijan interprets tree model results. Aryan d
 3. Work only on owned files unless agreed otherwise.
 4. Run relevant tests, inspect `git diff`, commit with a meaningful message.
 5. Open a pull request; request one teammate review and, when useful, a read-only Claude subagent review.
-6. Merge only after the owner can explain the code and checks pass.
+6. Merge only after the owner can explain the code and checks pass. GitHub Actions runs `pytest` on every pull request (`.github/workflows/tests.yml`); do not merge while it is red.
 
 ## Definition of ready for the next phase
 
