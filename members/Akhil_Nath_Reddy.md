@@ -8,13 +8,18 @@ Review the shared target/split and help the team agree on a fair evaluation desi
 
 ## Step-by-step tasks
 
-### Early phase — review and guidance
+### Phase 1 — human review
+
+You are the team's **human reviewer** for Phase 1. The `leakage-reviewer` and `experiment-reviewer` agents are automated checks; your review is the human sign-off on top of them. Most Phase 1 code is already merged, so review it on `main` and post findings as GitHub issues or PR comments.
 
 - [ ] Read `docs/PROJECT_CONTEXT.md`, `docs/AML_CONCEPT_MAP.md`, and the other task files when reviewing their components.
 - [ ] Review Abhayanth's label, split and metric setup.
 - [ ] Review Aryan's feature code for future-value leakage.
 - [ ] Check that Srijan's models use the shared features and validation IDs.
 - [ ] Explain risks with evidence; suggest small fixes instead of taking over a module.
+- [ ] Review Ashrith's RUL-cap and feature-set experiment PR before it is merged: is the cap applied to training targets only, is the test set untouched, and are the settings reused rather than retuned?
+- [ ] Approve or request changes on new Phase 1 PRs on GitHub, so the review is visible on record.
+- [ ] Write the findings into `reports/review/phase1_review.md`: what you checked, what you found, and what was fixed.
 
 ### Phase 2 — advanced comparison
 
@@ -28,6 +33,7 @@ Review the shared target/split and help the team agree on a fair evaluation desi
 ## Expected deliverables
 
 - `src/rul_prediction/models/tcn.py` and `notebooks/05_tcn_ablation.ipynb` if feasible
+- Phase 1: `reports/review/phase1_review.md` and GitHub PR reviews
 - ablation table and technical review checklist
 - final technical validation notes
 
@@ -54,3 +60,4 @@ is runnable. Add a clear comparison and request experiment-reviewer and leakage-
 - What an ablation study proves and what it cannot prove.
 - Why a hybrid model needs validation evidence rather than just averaging two predictions.
 - How the final comparison avoids using test results for model selection.
+- What a human review catches that automated reviewer agents and unit tests miss.

@@ -14,7 +14,7 @@ Aryan audits the raw data and documents columns. Abhayanth implements target gen
 
 ## Step 2 — Phase 1 AML
 
-Aryan builds preprocessing and engineered features. Abhayanth implements a linear baseline and shared metrics. Srijan implements tree models. Compare results using the same split and metric function. Fix any leakage or alignment bugs before tuning.
+Aryan builds preprocessing and engineered features. Abhayanth implements a linear baseline and shared metrics. Srijan implements tree models. Ashrith runs the validation-only RUL-cap and feature-set experiment so the team can fix the target before Phase 2. Compare results using the same split and metric function. Fix any leakage or alignment bugs before tuning. Akhil is the human reviewer for Phase 1 code and PRs.
 
 ## Step 3 — Phase 2 DL
 
