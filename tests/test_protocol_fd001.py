@@ -9,6 +9,7 @@ from pathlib import Path
 import pandas as pd
 
 from rul_prediction.data import load_cmapss_file
+from rul_prediction.metrics import RUL_BAND_THRESHOLD, score_by_rul_band
 from rul_prediction.splits import sample_cutoff_rows, split_by_engine, split_engine_ids
 from rul_prediction.targets import add_train_rul
 
@@ -38,3 +39,14 @@ def test_fd001_cutoff_points_match_committed_csv():
     cutoffs = sample_cutoff_rows(val_df)[["engine_id", "cycle", "rul"]]
 
     pd.testing.assert_frame_equal(cutoffs, expected)
+
+
+def test_validation_points_split_22_early_78_late():
+    assert RUL_BAND_THRESHOLD == 125
+    points = pd.read_csv(ROOT / "docs" / "fd001_validation_cutoffs.csv")
+
+    # Perfect predictions: used only to count how many points fall in each band.
+    bands = score_by_rul_band(points["rul"], points["rul"])
+
+    assert bands["early"]["n"] == 22
+    assert bands["late"]["n"] == 78

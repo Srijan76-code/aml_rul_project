@@ -6,6 +6,10 @@ their numbers are directly comparable.
 
 import numpy as np
 
+# Boundary between "early" and "late" degradation for the error breakdown.
+# Fixed in advance from the C-MAPSS literature (125-130), not tuned on our results.
+RUL_BAND_THRESHOLD = 125
+
 
 def mae(y_true, y_pred):
     """Mean absolute error: the average miss in cycles.
@@ -31,6 +35,34 @@ def rmse(y_true, y_pred):
 def score_predictions(y_true, y_pred):
     """Return {"mae", "rmse", "n"}: one row of the model comparison table."""
     return {"mae": mae(y_true, y_pred), "rmse": rmse(y_true, y_pred), "n": len(y_true)}
+
+
+def score_by_rul_band(y_true, y_pred, threshold=RUL_BAND_THRESHOLD):
+    """Score early and late points separately: {"early": {...}, "late": {...}}.
+
+    Points are grouped by their TRUE RUL, after prediction. The model and the
+    answers are unchanged; this is only a way of reading the errors.
+    early = true RUL > threshold (engine assumed still healthy);
+    late  = true RUL <= threshold (engine assumed degrading, near failure).
+    A group with no points gives n = 0 with NaN errors instead of raising.
+    """
+    y_true, y_pred = _checked_arrays(y_true, y_pred)
+    if not np.isfinite(threshold):
+        raise ValueError("threshold must be a finite number")
+
+    # Group by y_true only: grouping by y_pred would let the model choose its own band.
+    is_early = y_true > threshold
+    return {
+        "early": _score_or_empty(y_true[is_early], y_pred[is_early]),
+        "late": _score_or_empty(y_true[~is_early], y_pred[~is_early]),
+    }
+
+
+def _score_or_empty(y_true, y_pred):
+    # score_predictions raises on empty input, but an empty band is a valid result.
+    if len(y_true) == 0:
+        return {"mae": float("nan"), "rmse": float("nan"), "n": 0}
+    return score_predictions(y_true, y_pred)
 
 
 def _checked_arrays(y_true, y_pred):

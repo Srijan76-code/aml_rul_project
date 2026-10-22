@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from rul_prediction.metrics import mae, rmse, score_predictions
+from rul_prediction.metrics import RUL_BAND_THRESHOLD, mae, rmse, score_by_rul_band, score_predictions
 
 
 def test_mae_and_rmse_hand_computed_example():
@@ -63,3 +63,73 @@ def test_rejects_mismatched_empty_or_non_finite_inputs(y_true, y_pred):
         mae(y_true, y_pred)
     with pytest.raises(ValueError):
         rmse(y_true, y_pred)
+
+
+def test_score_by_rul_band_hand_computed_example():
+    # Early errors 50 and 0; late errors 10 and 10.
+    bands = score_by_rul_band([200, 150, 100, 20], [150, 150, 90, 30])
+
+    assert bands["early"] == {"mae": pytest.approx(25), "rmse": pytest.approx(math.sqrt(1250)), "n": 2}
+    assert bands["late"] == {"mae": pytest.approx(10), "rmse": pytest.approx(10), "n": 2}
+
+
+def test_rul_band_boundary_value_counts_as_late():
+    bands = score_by_rul_band([RUL_BAND_THRESHOLD, RUL_BAND_THRESHOLD + 1], [0, 0])
+
+    assert bands["late"]["n"] == 1
+    assert bands["late"]["mae"] == 125
+    assert bands["early"]["n"] == 1
+
+
+def test_rul_band_groups_by_true_rul_not_prediction():
+    bands = score_by_rul_band([10], [300])
+
+    assert bands["late"]["n"] == 1
+    assert bands["early"]["n"] == 0
+
+
+def test_empty_rul_band_reports_zero_points_and_nan():
+    bands = score_by_rul_band([10, 20], [12, 18])
+
+    assert bands["early"]["n"] == 0
+    assert math.isnan(bands["early"]["mae"])
+    assert math.isnan(bands["early"]["rmse"])
+    assert bands["late"]["n"] == 2
+
+
+def test_rul_bands_cover_every_point_once():
+    rng = np.random.default_rng(0)
+    actual = rng.integers(0, 330, size=50)
+    predicted = rng.normal(150, 50, size=50)
+
+    bands = score_by_rul_band(actual, predicted, threshold=100)
+
+    assert bands["early"]["n"] + bands["late"]["n"] == 50
+    assert bands["early"]["n"] == int((actual > 100).sum())
+
+
+def test_rul_band_rejects_invalid_inputs():
+    with pytest.raises(ValueError):
+        score_by_rul_band([1, 2, 3], [1, 2])
+
+
+def test_empty_late_band_reports_zero_points_and_nan():
+    bands = score_by_rul_band([200, 300], [0, 0])
+
+    assert bands["late"]["n"] == 0
+    assert math.isnan(bands["late"]["mae"])
+    assert bands["early"]["n"] == 2
+    assert bands["early"]["mae"] == 250
+
+
+def test_early_point_predicted_low_stays_early():
+    bands = score_by_rul_band([300], [0])
+
+    assert bands["early"]["n"] == 1
+    assert bands["early"]["mae"] == 300
+    assert bands["late"]["n"] == 0
+
+
+def test_rul_band_rejects_non_finite_threshold():
+    with pytest.raises(ValueError):
+        score_by_rul_band([10, 200], [10, 200], threshold=float("nan"))
