@@ -72,7 +72,7 @@ scores = score_predictions(val_points["rul"], model.predict(val_points[feature_c
 
 ## Known limitations
 
-- The 100 points come from only 20 engines, and the 5 points of one engine are correlated, so the effective sample size is closer to 20 than 100. Small MAE/RMSE differences between models may be noise. Not yet measured for real models; an engine-level bootstrap is a possible later check.
+- The 100 points come from only 20 engines, and the 5 points of one engine are correlated, so the effective sample size is closer to 20 than 100. Small MAE/RMSE differences between models may be noise. Not yet measured for real models; Akhil measures it in Phase 1 with an engine-level bootstrap (`members/Akhil_Nath_Reddy.md`).
 - One fixed split is tuned on repeatedly, so validation scores can become optimistic. Keep tuning grids small.
 - Uniform cut-offs include early cycles with large RUL (up to ~330 cycles), which weigh heavily in uncapped RMSE. We deliberately do not match the cut-off distribution to the test RUL labels. The early/late error breakdown (Section 4) shows this effect.
 - Seed 42 is used for both the engine split and the cut-off sampling.
