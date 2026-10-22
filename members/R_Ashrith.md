@@ -23,7 +23,7 @@ Questions your work answers:
 - [x] Part B — `src/rul_prediction/cap_experiment.py` (experiment runner) with tests.
 - [x] Part C — `notebooks/03_rul_cap_experiment.ipynb`, validation only; results CSV, log and figure written by code.
 - [x] Part D — update the protocol's quick-use example.
-- [ ] Part E — `leakage-reviewer` and `experiment-reviewer`, then PR. Akhil reviews it; the team makes both decisions.
+- [x] Part E — `leakage-reviewer` and `experiment-reviewer`, then PR. Akhil reviews it; the team makes both decisions.
 
 ### Phase 2 — DL
 
