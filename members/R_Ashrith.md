@@ -1,6 +1,6 @@
 # R Ashrith — sequence data and LSTM
 
-**Main job:** build a basic DL model that learns from ordered sensor readings. In Phase 1 you run the RUL-cap and feature-set experiment, which decides the target your LSTM will use.
+**Main job:** build a basic DL model that learns from ordered sensor readings. In Phase 1 you build the early/late error breakdown and run the RUL-cap and feature-set experiment. It tests, with numbers, the team's decision to keep true RUL as the target, which your LSTM will also use.
 
 ## When to start
 
