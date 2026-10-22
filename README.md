@@ -37,7 +37,7 @@ python -m pytest -q                  # all tests should pass
 | **Aryan Patel** | Dataset EDA, preprocessing and feature engineering | `01_eda.ipynb`, `02_features.ipynb`, reusable feature functions |
 | **Abhayanth** | RUL labels, engine-based validation, metrics and linear baseline | target/split/metric functions, `03_linear_baseline.ipynb` |
 | **R Ashrith** | RUL-cap experiment (Phase 1); sequence preparation and LSTM | `03_rul_cap_experiment.ipynb`, sequence dataset code, `04_lstm.ipynb`, training plots |
-| **Akhil Nath Reddy** | TCN/advanced experiment, ablation and technical review | `05_tcn_ablation.ipynb`, review checklist and final comparison |
+| **Akhil Nath Reddy** | Claim verification and human review (Phase 1); TCN/advanced experiment and ablation (Phase 2) | `03_claim_verification.ipynb`, `reports/review/phase1_review.md`, PR reviews, `05_tcn_ablation.ipynb` |
 
 **Srijan and Abhayanth's earlier roles have been swapped.** Srijan now owns tree models; Abhayanth owns the evaluation setup and linear baseline.
 
