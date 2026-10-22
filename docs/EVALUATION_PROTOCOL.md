@@ -40,7 +40,7 @@ Test engines are cut off before failure and scored once, at their last observed 
 - `metrics.mae`, `metrics.rmse`, `metrics.score_predictions` — units are cycles.
 - MAE = average absolute miss. RMSE squares errors first, so big misses count more.
 - Inputs must be equal-length 1-D arrays with no NaN/inf; the functions raise otherwise.
-- **Early/late breakdown** (to be added by Ashrith as `metrics.score_by_rul_band`, see `members/R_Ashrith_phase1_spec.md`). Points are grouped by their **true** RUL, after prediction:
+- **Early/late breakdown** (`metrics.score_by_rul_band`, constant `metrics.RUL_BAND_THRESHOLD`). Points are grouped by their **true** RUL, after prediction:
   - **early:** true RUL > 125. The engine is assumed to be still healthy, so large errors are expected.
   - **late:** true RUL <= 125. The engine is assumed to be degrading; this is the error that matters for maintenance.
   - The threshold 125 is borrowed from the capped training target used in C-MAPSS papers (125–130; the piecewise-linear target goes back to Heimes, 2008). There it is a cap value, not a measured start of degradation. It was fixed before any band scores were computed and is not tuned. The split is sensitive to it: 26 / 22 / 18 / 13 of the 100 validation points are early at 115 / 125 / 130 / 150.
@@ -60,14 +60,16 @@ Test engines are cut off before failure and scored once, at their last observed 
 from rul_prediction.data import load_cmapss_file
 from rul_prediction.targets import add_train_rul
 from rul_prediction.splits import split_engine_ids, split_by_engine, sample_cutoff_rows
-from rul_prediction.metrics import score_predictions
+from rul_prediction.metrics import score_by_rul_band, score_predictions
 
 train = add_train_rul(load_cmapss_file("data/raw/train_FD001.txt"))
 train_ids, val_ids = split_engine_ids(train["engine_id"])
 train_df, val_df = split_by_engine(train, val_ids)
 # ... build features on train_df and val_df, fit on train_df ...
 val_points = sample_cutoff_rows(val_df)
-scores = score_predictions(val_points["rul"], model.predict(val_points[feature_columns]))
+predictions = model.predict(val_points[feature_columns])
+scores = score_predictions(val_points["rul"], predictions)          # primary
+band_scores = score_by_rul_band(val_points["rul"], predictions)     # early / late
 ```
 
 ## Known limitations
