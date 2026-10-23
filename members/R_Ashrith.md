@@ -19,11 +19,11 @@ Questions your work answers:
 - **RUL cap:** how does training on `min(RUL, 125)` change overall, early and late error, graded against true RUL? Does it pass the decision rule in `docs/EVALUATION_PROTOCOL.md` Section 1?
 - **Rolling features for trees:** do Random Forest and gradient boosting do better with all 57 features or with `cycle` + 14 raw sensors (15)?
 
-- [ ] Part A — `metrics.score_by_rul_band` (early/late scoring) with tests.
-- [ ] Part B — `src/rul_prediction/cap_experiment.py` (experiment runner) with tests.
-- [ ] Part C — `notebooks/03_rul_cap_experiment.ipynb`, validation only; results CSV, log and figure written by code.
-- [ ] Part D — update the protocol's quick-use example.
-- [ ] Part E — `leakage-reviewer` and `experiment-reviewer`, then PR. Akhil reviews it; the team makes both decisions.
+- [x] Part A — `metrics.score_by_rul_band` (early/late scoring) with tests.
+- [x] Part B — `src/rul_prediction/cap_experiment.py` (experiment runner) with tests.
+- [x] Part C — `notebooks/03_rul_cap_experiment.ipynb`, validation only; results CSV, log and figure written by code.
+- [x] Part D — update the protocol's quick-use example.
+- [x] Part E — `leakage-reviewer` and `experiment-reviewer`, then PR. Akhil reviews it; the team makes both decisions.
 
 ### Phase 2 — DL
 
